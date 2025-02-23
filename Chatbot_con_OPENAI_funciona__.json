@@ -1,0 +1,205 @@
+{
+  "name": "Chatbot con OPENAI funciona!!",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "mode": "webhook",
+        "options": {}
+      },
+      "id": "3ef30789-9a96-40c9-8967-5f7fe643cfab",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -420,
+        -60
+      ],
+      "webhookId": "1976f2a2-443a-4d29-8727-41ab8aeab0ff"
+    },
+    {
+      "parameters": {
+        "agent": "conversationalAgent",
+        "promptType": "define",
+        "text": "=idsesion:{{ $('When chat message received').item.json.sessionId }}\nmensaje: {{ $('When chat message received').item.json.chatInput }}",
+        "options": {
+          "systemMessage": "eres un asistente que hace compañia. hablas en español. si no entiendes la frase vuelve a preguntar."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        40,
+        -60
+      ],
+      "id": "b8bf25c2-ef9f-4a5c-93f7-ee1fb8411576",
+      "name": "AI Agent",
+      "notesInFlow": false,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {
+          "temperature": 0.7
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        140
+      ],
+      "id": "8194315b-3500-4592-b748-1ad79bf149be",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "N8GjixQvFJ73GySx",
+          "name": "OpenAi pruebas php"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=\n",
+        "contextWindowLength": 20
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        240,
+        140
+      ],
+      "id": "130c1995-8981-4a5e-919a-7cdfe7fd8aae",
+      "name": "Window Buffer Memory"
+    },
+    {
+      "parameters": {
+        "content": "Agrega este codigo a tu html y reemplaza 'YOUR_PRODUCTION_WEBHOOK_URL'\nPara encontrarla:\n- doble clik en el nodo \"When chat message received\"\n- Solapa Parameters, opcion Chat URL: haz copy paste\n- Remplaza 'YOUR_PRODUCTION_WEBHOOK_URL' por la URL que copiaste\nNo olvides la comilla!\n\n----",
+        "height": 360,
+        "width": 600
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -900,
+        -220
+      ],
+      "typeVersion": 1,
+      "id": "0c7d0dde-167c-4799-aa80-3e5bd23391ac",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "<link href=\"https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css\" rel=\"stylesheet\" />\n<script type=\"module\">\n\timport { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';\n\n\tcreateChat({\n\t\twebhookUrl: 'YOUR_PRODUCTION_WEBHOOK_URL'\n\twebhookConfig: {\n\t\tmethod: 'POST',\n\t\theaders: {}\n\t},\n\ttarget: '#n8n-chat',\n\tmode: 'window',\n\tchatInputKey: 'chatInput',\n\tchatSessionKey: 'sessionId',\n\tmetadata: {},\n\tshowWelcomeScreen: false,\n\tdefaultLanguage: 'en',\n\tinitialMessages: [\n\t\t'Hi there! 👋',\n\t\t'My name is Nathan. How can I assist you today?'\n\t],\n\ti18n: {\n\t\ten: {\n\t\t\ttitle: 'Hi there! 👋',\n\t\t\tsubtitle: \"Start a chat. We're here to help you 24/7.\",\n\t\t\tfooter: '',\n\t\t\tgetStarted: 'New Conversation',\n\t\t\tinputPlaceholder: 'Type your question..',\n\t\t},\n\t},\n});\n\n\n</script>\n",
+        "height": 700,
+        "width": 600,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -900,
+        140
+      ],
+      "typeVersion": 1,
+      "id": "9a2bedaf-dd0e-40a3-8dac-b2a6fadc87d2",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "Aca es donde se pone el prompt.\n\nDonde lo encuentro?\nDocble click en este nodo para entrar a las opcion, Add Options > Systema Meesage",
+        "height": 300,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -80,
+        -220
+      ],
+      "typeVersion": 1,
+      "id": "9feefa2c-8b24-407f-bb57-8ac31947cd98",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAca se configura el Context Window Length, es decir \ncuantos de los ultios mensajes debe guardar en la memoria\n",
+        "height": 360,
+        "width": 300
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        180,
+        100
+      ],
+      "typeVersion": 1,
+      "id": "e14f5895-8e04-4aeb-97d0-47e856451e22",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "content": "\n\n\n\n\n\n\n\n\n\n\n\nAca se conecta openAI\n\nPara obtener la API Key, ir a platform https://platform.openai.com/ >> Dashboard >> API keys >> Create new secret key IMPORTANTE copiarla en algun lado porque solo se puede ver una vez\n\nLuego hacer doble click en este nodo y agregar la api key",
+        "height": 360,
+        "width": 400
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -240,
+        100
+      ],
+      "typeVersion": 1,
+      "id": "98ba9be6-ad40-4e8e-920a-a4a90bb68569",
+      "name": "Sticky Note9"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "8ff004b5-206b-4395-b0c1-ee94b70aeba1",
+  "meta": {
+    "instanceId": "e7e4476213406354ccab0703232a3b4aba39721ef1546b5a663ee78343fd3fe9"
+  },
+  "id": "VoYGMmGw1a6tcj1W",
+  "tags": []
+}

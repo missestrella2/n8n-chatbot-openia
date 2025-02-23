@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot n8n</title>
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+</head>
+<body>
+    
+<h1>hola soy una prueba de chatbot conversacional. apreta el boton de chat para hablarme</h1>
+<h2>recuerda que mi memoria es solo los ultimos 20 mensajes. si quieres aumentar la memoria hazo en el flujo de n8n</h2>
+
+<!--INICIO DEL CHATBOT-->
+    <!-- Contenedor del chatbot -->
+    <div id="chat-container"></div>
+
+    <script type="module">
+        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+    	webhookUrl: 'REEMPLAZA POR LA URL DE TU WEBHOOK',
+    	webhookConfig: {
+    		method: 'POST',
+    		headers: {}
+    	},
+    	target: '#n8n-chat',
+    	mode: 'window',
+    	chatInputKey: 'chatInput',
+    	chatSessionKey: 'sessionId',
+    	metadata: {},
+    	showWelcomeScreen: false,
+    	defaultLanguage: 'es',
+    	theme: {
+                primaryColor: "#4CAF50",
+                textColor: "#ffffff",
+                backgroundColor: "#333333"
+            },
+    	initialMessages: [
+    		'hola! 👋',
+    		'soy Cyn, que necesitas?'
+    	],
+    	i18n: {
+    		en: {
+    			title: 'Hi there! 👋',
+    			subtitle: "Start a chat. We're here to help you 24/7.",
+    			footer: '',
+    			getStarted: 'New Conversation',
+    			inputPlaceholder: 'Type your question..',
+    		},
+    		es: {
+    			title: 'hola! 👋',
+    			subtitle: "estoy aca para que conversemos.",
+    			footer: '',
+    			getStarted: 'New Conversation',
+    			inputPlaceholder: 'Type your question..',
+    		},
+    	},
+    });
+    </script>
+<!--FIN DEL CHATBOT-->
+</body>
+</html>
